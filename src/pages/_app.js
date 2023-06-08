@@ -31,7 +31,7 @@ const App = ({
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <SWRConfig value={{ fetcher }}>
-          <Component {...pageProps} />;
+          <Component {...pageProps} />
         </SWRConfig>
       </ThemeProvider>
     </CacheProvider>

@@ -27,6 +27,7 @@ const createOrderSchema = {
           properties: { name: { type: "string" }, price: { type: "integer" } },
         },
       ],
+      minItems: 1,
     },
     total: {
       type: "integer",
