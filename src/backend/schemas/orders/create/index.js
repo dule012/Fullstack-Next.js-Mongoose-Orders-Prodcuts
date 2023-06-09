@@ -7,6 +7,9 @@ const createOrderSchema = {
         name: {
           type: "string",
         },
+        email: {
+          type: "string",
+        },
         address: {
           type: "string",
         },
@@ -17,7 +20,7 @@ const createOrderSchema = {
           type: "string",
         },
       },
-      required: ["name", "address", "city", "country"],
+      required: ["name", "email", "address", "city", "country"],
     },
     products: {
       type: "array",

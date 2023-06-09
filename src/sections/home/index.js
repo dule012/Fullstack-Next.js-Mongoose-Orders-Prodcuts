@@ -28,6 +28,7 @@ const schema = Yup.object().shape({
     .required("Required Field"),
   currency: Yup.string().required("Required Field"),
   products: Yup.array().min(1),
+  email: Yup.string().email().required("Required Field"),
 });
 
 const StyledRoot = styled("main")(({ theme }) => ({

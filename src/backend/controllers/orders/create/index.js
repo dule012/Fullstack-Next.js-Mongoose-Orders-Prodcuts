@@ -1,9 +1,10 @@
 import Orders from "@/backend/models/orders";
+import sendEmail from "@/backend/utils/sendEmail";
 
 const createOrder = async (req, res) => {
   try {
     let {
-      body: { products, name, address, city, country, currency },
+      body: { products, name, email, address, city, country, currency },
     } = req;
 
     products = products
@@ -34,12 +35,21 @@ const createOrder = async (req, res) => {
     );
 
     const order = new Orders({
-      delivery: { name, address, city, country },
+      delivery: { name, email, address, city, country },
       products,
       total,
       currency,
     });
     await order.save();
+
+    await sendEmail({
+      to: email,
+      subject: "Order",
+      text: `Dear ${name} your order:`,
+      html: `<div>Dear ${name} your order:</div><div>${products
+        .map((item) => item.name + " " + item.price + currency)
+        .join(", ")}</div>`,
+    });
 
     res.status(200).json({
       error: false,

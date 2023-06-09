@@ -11,4 +11,5 @@ export const fields = [
     { name: "currency", type: "select", defaultValue: "$", options: ["$"] },
     { name: "products", type: "autocomplete", defaultValue: [] },
   ],
+  [{ name: "email", type: "textfield", defaultValue: "" }],
 ];

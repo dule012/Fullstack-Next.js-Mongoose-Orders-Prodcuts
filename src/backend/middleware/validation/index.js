@@ -4,7 +4,7 @@ const validation = (schema) => async (req, res, next) => {
   try {
     const { body } = req;
 
-    const ajv = new Ajv({ allErrors: true });
+    const ajv = new Ajv({ allErrors: true, strictTuples: false });
     const validate = ajv.compile(schema);
 
     const isValid = validate(body);
