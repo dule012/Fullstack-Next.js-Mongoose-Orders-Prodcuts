@@ -84,7 +84,7 @@ const Home = () => {
     reValidateMode: "onChange",
   });
 
-  const options = { products: productsData };
+  const options = useMemo(() => ({ products: productsData }), [productsData]);
 
   const handleMultiSelect = useCallback(
     (name, val) => setValue(name, val),
@@ -104,90 +104,91 @@ const Home = () => {
     [reset]
   );
 
-  const fieldByType = {
-    textfield: (fieldData, field, fieldState) => (
-      <TextField
-        fullWidth
-        {...field}
-        label={
-          fieldData.name.slice(0, 1).toUpperCase() + fieldData.name.slice(1)
-        }
-        error={!!fieldState.error}
-        helperText={fieldState.error?.message || ""}
-        placeholder={fieldData.placeholder || ""}
-      />
-    ),
-    select: (fieldData, field, fieldState) => (
-      <FormControl fullWidth>
-        <InputLabel>
-          {fieldData.name.slice(0, 1).toUpperCase() + fieldData.name.slice(1)}
-        </InputLabel>
-        <Select
-          {...field}
+  const fieldByType = useMemo(
+    () => ({
+      textfield: (fieldData, field, fieldState) => (
+        <TextField
           fullWidth
-          onChange={(e) => handleSelect(fieldData.name, e.target.value)}
+          {...field}
           label={
             fieldData.name.slice(0, 1).toUpperCase() + fieldData.name.slice(1)
           }
-        >
-          {(options[fieldData.name] || fieldData.options).map((item, index) => (
-            <MenuItem key={index} value={item}>
-              {item}
-            </MenuItem>
-          ))}
-        </Select>
-        {fieldState.error && (
-          <FormHelperText error={!!fieldState.error}>
-            {fieldState.error.message}
-          </FormHelperText>
-        )}
-      </FormControl>
-    ),
-    autocomplete: (fieldData, field, fieldState) => (
-      <FormControl fullWidth>
-        <Autocomplete
-          {...field}
-          multiple
-          fullWidth
-          options={options[fieldData.name] || fieldData.options || []}
-          onChange={(e, newValue) => {
-            handleMultiSelect(fieldData.name, newValue);
-          }}
-          getOptionLabel={({ name, price }) =>
-            name && price ? name + "   " + price + getValues("currency") : ""
-          }
-          renderTags={(tagValue, getTagProps) =>
-            tagValue.map(({ name, price }, index) => (
-              <Chip
-                label={
-                  name && price
-                    ? name + "   " + price + getValues("currency")
-                    : ""
-                }
-                {...getTagProps({ index })}
-                key={index}
-              />
-            ))
-          }
-          isOptionEqualToValue={(option, value) => option._id === value._id}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={
-                fieldData.name.slice(0, 1).toUpperCase() +
-                fieldData.name.slice(1)
-              }
-            />
-          )}
+          error={!!fieldState.error}
+          helperText={fieldState.error?.message || ""}
+          placeholder={fieldData.placeholder || ""}
         />
-        {fieldState.error && (
-          <FormHelperText error={!!fieldState.error}>
-            {fieldState.error.message}
-          </FormHelperText>
-        )}
-      </FormControl>
-    ),
-  };
+      ),
+      select: (fieldData, field, fieldState) => (
+        <FormControl fullWidth>
+          <InputLabel>
+            {fieldData.name.slice(0, 1).toUpperCase() + fieldData.name.slice(1)}
+          </InputLabel>
+          <Select
+            {...field}
+            fullWidth
+            onChange={(e) => handleSelect(fieldData.name, e.target.value)}
+            label={
+              fieldData.name.slice(0, 1).toUpperCase() + fieldData.name.slice(1)
+            }
+          >
+            {(options[fieldData.name] || fieldData.options).map(
+              (item, index) => (
+                <MenuItem key={index} value={item}>
+                  {item}
+                </MenuItem>
+              )
+            )}
+          </Select>
+          {fieldState.error && (
+            <FormHelperText error={!!fieldState.error}>
+              {fieldState.error.message}
+            </FormHelperText>
+          )}
+        </FormControl>
+      ),
+      autocomplete: (fieldData, field, fieldState) => (
+        <FormControl fullWidth>
+          <Autocomplete
+            {...field}
+            multiple
+            fullWidth
+            options={options[fieldData.name] || fieldData.options || []}
+            onChange={(e, newValue) => {
+              handleMultiSelect(fieldData.name, newValue);
+            }}
+            getOptionLabel={({ name, price }) =>
+              name + "   " + price + getValues("currency")
+            }
+            renderTags={(tagValue, getTagProps) =>
+              tagValue.map(({ name, price }, index) => (
+                <Chip
+                  label={name + "   " + price + getValues("currency")}
+                  {...getTagProps({ index })}
+                  key={index}
+                />
+              ))
+            }
+            isOptionEqualToValue={(option, value) => option._id === value._id}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label={
+                  fieldData.name.slice(0, 1).toUpperCase() +
+                  fieldData.name.slice(1)
+                }
+              />
+            )}
+          />
+          {fieldState.error && (
+            <FormHelperText error={!!fieldState.error}>
+              {fieldState.error.message}
+            </FormHelperText>
+          )}
+        </FormControl>
+      ),
+    }),
+    [getValues, handleMultiSelect, handleSelect, options]
+  );
 
   return (
     <StyledRoot>
