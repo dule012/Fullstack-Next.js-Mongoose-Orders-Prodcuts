@@ -65,7 +65,7 @@ const StyledRoot = styled("main")(({ theme }) => ({
   },
 }));
 
-const Home = () => {
+const HomeSection = () => {
   const { data: productsData } = useRequest("/api/products");
 
   const defaultValues = useMemo(
@@ -222,4 +222,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeSection;

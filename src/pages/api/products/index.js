@@ -1,5 +1,5 @@
 import { createRouter } from "next-connect";
-import getProducts from "@/backend/controllers/orders/get";
+import getProducts from "@/backend/controllers/products/get";
 import dbConnection from "@/backend/middleware/dbConnection";
 
 const router = createRouter();

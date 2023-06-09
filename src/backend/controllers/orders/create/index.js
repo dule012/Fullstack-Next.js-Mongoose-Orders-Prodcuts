@@ -46,7 +46,7 @@ const createOrder = async (req, res) => {
       to: email,
       subject: "Order",
       text: `Dear ${name} your order:`,
-      html: `<div>Dear ${name} your order:</div><div>${products
+      html: `<div>Dear ${name} your order:</div><br/><div>${products
         .map((item) => item.name + " " + item.price + currency)
         .join(", ")}</div>`,
     });
